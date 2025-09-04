@@ -1,57 +1,32 @@
-{% comment %}
-  This section is used in the list-collections template to render a list of
-  collections.
+<main class="main">
+  {% render 'page-header' %}
+  {% render 'breadcrumb' %}
+  <div class="page-content">
+    <div class="categories-page">
+      <div class="container">
+        <div class="row">
+          {% for collection in collections %}
+            <div class="col-sm-6 {% if section.settings.grid_item_width == 'collections--compact' %} col-md-4 {% else %} col-md-6 {% endif %}">
+              <div class="banner banner-cat banner-badge">
+                {% if collection.featured_image %}
+                  {{ collection.featured_image | image_url: width: 700 | image_tag: class: 'product-image' }}
+                {% else %}
+                  {{ 'product-5' | placeholder_svg_tag: 'placeholder-img' }}
+                {% endif %}
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
-{% endcomment %}
-
-<h1>{{ 'collections.title' | t }}</h1>
-
-<div
-  class="collections {{ section.settings.grid_item_width }}"
-  style="--grid-gap: {{ section.settings.grid_gap }}px"
->
-  {% for collection in collections %}
-    <a class="collection-card" href="{{ collection.url }}">
-      {% if collection.featured_image %}
-        {% render 'image',
-          class: 'collection-card__image',
-          image: collection.featured_image,
-          width: 600,
-          height: 600,
-          crop: 'center'
-        %}
-      {% endif %}
-
-      <div class="collection-card__content">
-        <p>{{ collection.title }}</p>
-
-        {% if collection.description %}
-          <p>{{ collection.description | strip_html | truncatewords: 15 }}</p>
-        {% endif %}
+                <a class="banner-link" href="{{ collection.url }}">
+                  <h3 class="banner-title">{{ collection.title }}</h3>
+                  <h4 class="banner-subtitle">{{ collection.products_count }} Products</h4>
+                  <span class="banner-link-text">Shop Now</span>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
       </div>
-    </a>
-  {% endfor %}
-</div>
-
-{% stylesheet %}
-  .collections {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(var(--collection-card-size), 100%), 1fr));
-    gap: var(--grid-gap);
-  }
-  .collections--compact {
-    --collection-card-size: 160px;
-  }
-  .collections--full {
-    --collection-card-size: 280px;
-  }
-  .collection-card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-{% endstylesheet %}
+    </div>
+  </div>
+</main>
 
 {% schema %}
 {
@@ -67,17 +42,6 @@
       ],
       "default": "collections--full"
     },
-    {
-      "type": "range",
-      "id": "grid_gap",
-      "label": "t:labels.grid_gap",
-      "min": 0,
-      "max": 50,
-      "step": 5,
-      "unit": "px",
-      "default": 10
-    }
   ],
-  "presets": [{ "name": "t:general.collections_grid" }]
 }
 {% endschema %}
