@@ -8,23 +8,59 @@
  * ------------------------------------------------------------
  */
 {
-	"sections": {
-		"slider": {
-			"type": "slider",
-			"blocks": {
-				"hero_slider": {
-					"type": "hero_slider"
-				}
-			},
-			"block_order": ["hero_slider"]
-		},
-		"featured_products": {
-			"type": "featured-products",
-			"settings": {
-				"featured": "all"
-			}
-		}
-	},
-	"wrapper": "main",
-	"order": ["slider", "featured_products"]
+  "sections": {
+    "slider": {
+      "type": "slider",
+      "blocks": {
+        "hero_slider": {
+          "type": "hero_slider",
+          "settings": {
+            "slide_image": "shopify://shop_images/ManLandPage1.jpg",
+            "slide_title": "Get All The Good Stuff",
+            "slide_subtitle": "Seasonal Picks",
+            "button_text": "Discover More",
+            "button_link": "shopify://collections/all"
+          }
+        },
+        "hero_slider_gYrmE8": {
+          "type": "hero_slider",
+          "settings": {
+            "slide_image": "shopify://shop_images/WomenLandPage.jpg",
+            "slide_title": "Get All The Good Stuff",
+            "slide_subtitle": "Seasonal Picks",
+            "button_text": "Discover More",
+            "button_link": "shopify://collections/all"
+          }
+        },
+        "hero_slider_tXLNFw": {
+          "type": "hero_slider",
+          "settings": {
+            "slide_image": "shopify://shop_images/category-img_md_1-1744358724.jpg",
+            "slide_title": "Get All The Good Stuff",
+            "slide_subtitle": "Seasonal Picks",
+            "button_text": "Discover More",
+            "button_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "hero_slider",
+        "hero_slider_gYrmE8",
+        "hero_slider_tXLNFw"
+      ],
+      "settings": {}
+    },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {
+        "featured": "all",
+        "products_per_row": 8
+      }
+    }
+  },
+  "wrapper": "main",
+  "order": [
+    "slider",
+    "featured_products"
+  ]
 }
