@@ -1,0 +1,22 @@
+{% render 'breadcrumb' %}
+
+<div class="page-content pb-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 offset-lg-1">
+        <div class="about-text text-center mt-3">
+          <h2 class="title text-center mb-2">{{ page.title }}</h2>
+
+          <div class="text-justify">{{ page.content }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:general.page",
+  "settings": []
+}
+{% endschema %}

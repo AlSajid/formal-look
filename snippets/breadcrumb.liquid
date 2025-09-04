@@ -1,0 +1,54 @@
+<nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+  <div class="container">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{{ routes.root_url }}">Home</a>
+      </li>
+
+      {%- comment -%} Collection Page {%- endcomment -%}
+      {% if template contains 'collection' and collection %}
+        <li class="breadcrumb-item active">
+          {{ collection.title }}
+        </li>
+
+        {%- comment -%} Product Page {%- endcomment -%}
+      {% elsif template contains 'product' and product %}
+        {%- assign current_collection = collection | default: product.collections.first -%}
+
+        {% if current_collection %}
+          <li class="breadcrumb-item">
+            <a href="{{ current_collection.url }}">{{ current_collection.title }}</a>
+          </li>
+        {% endif %}
+
+        <li class="breadcrumb-item active">
+          {{ product.title }}
+        </li>
+
+        {%- comment -%} Blog/article Page {%- endcomment -%}
+      {% elsif template contains 'blog' or template contains 'article' %}
+        <li class="breadcrumb-item">
+          <a href="{{ blog.url }}">{{ blog.title }} Blogs</a>
+        </li>
+
+        {% if template contains 'article' and article %}
+          <li class="breadcrumb-item active">
+            {{ article.title }}
+          </li>
+        {% endif %}
+
+        {%- comment -%} Page {%- endcomment -%}
+      {% elsif template contains 'page' and page %}
+        <li class="breadcrumb-item active">
+          {{ page.title }}
+        </li>
+
+        {%- comment -%} Others Pages {%- endcomment -%}
+      {% else %}
+        <li class="breadcrumb-item active">
+          {{ template }}
+        </li>
+      {% endif %}
+    </ol>
+  </div>
+</nav>

@@ -1,0 +1,237 @@
+<main class="main">
+  {% render 'breadcrumb' %}
+
+  {% if article.image %}
+    <figure class="entry-media">
+      {{ article.image | image_url: width: 1920 | image_tag: loading: 'lazy', alt: article.image.alt }}
+    </figure>
+  {% else %}
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'entry-media' }}
+  {% endif %}
+
+  <div class="page-content">
+    <div class="container">
+      <article class="entry single-entry entry-fullwidth">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="entry-body">
+              {% for block in section.blocks %}
+                {% case block.type %}
+                  {% when 'blog_info' %}
+                    <div class="entry-meta">
+                      {% if section.settings.show_author_info %}
+                        <span class="entry-author"> by {{ article.author }}</span>
+                      {% endif %}
+
+                      {% if section.settings.show_publish_date %}
+                        <span>{{ article.published_at | time_tag: '%d %B %Y' }}</span>
+                      {% endif %}
+
+                      {% if section.settings.show_comments_count %}
+                        <span>{{ article.comments_count }} Comments</span>
+                      {% endif %}
+                    </div>
+
+                  {% when 'blog_title' %}
+                    <h2 class="entry-title entry-title-big">{{ article.title }}</h2>
+
+                  {% when 'blog_category' %}
+                    <div class="entry-cats">
+                      in <a href="#">{{ blog.title }}</a>
+                    </div>
+
+                  {% when 'blog_content' %}
+                    <div class="entry-content editor-content text-justify">
+                      {{ article.content }}
+                    </div>
+
+                    <div class="entry-footer row no-gutters">
+                      <div class="col">
+                        <div class="entry-tags">
+                          <span>Tags:</span>
+
+                          {% if article.tags != blank %}
+                            {% for tag in article.tags %}
+                              <a>{{ tag }}</a>
+                            {% endfor %}
+                          {% else %}
+                            <span>No tags</span>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                {% endcase %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {% if blogs.comments_enabled %}
+        <div class="comments">
+          <h3 class="title">
+            {{ article.comments_count }} Comment{% if article.comments_count > 1 %}s{% endif %}
+          </h3>
+        </div>
+
+        <ul>
+          {% paginate article.comments by 3 %}
+            {% for comment in article.comments %}
+              <li class="border-bottom p-3 mb-5">
+                <div class="comment">
+                  <div class="comment-body">
+                    <a href="#reply" class="comment-reply">Reply</a>
+                    <div class="comment-user">
+                      <h4>{{ comment.author }}</h4>
+                      {{ comment.created_at | time_tag: format: 'date_at_time', class: 'comment-date' }}
+                    </div>
+
+                    <div class="comment-content">
+                      <p>
+                        {{ comment.content }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+
+            {{ paginate | default_pagination }}
+          {% endpaginate %}
+        </ul>
+
+        <div class="reply" id="reply">
+          <div class="heading">
+            <h3 class="title">Leave A Reply</h3>
+            <p class="title-desc">Your email address will not be published. Required fields are marked *</p>
+          </div>
+
+          {% form 'new_comment', article %}
+            {% if form.errors %}
+              <div class="alert alert-danger">
+                <ul>
+                  {% for error in form.errors %}
+                    <li>
+                      {{ form.errors.messages[error] }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% elsif form.posted_successfully? %}
+              <div class="alert alert-success">Your comment has been successfully submitted.</div>
+            {% endif %}
+
+            <label for="reply-message" class="sr-only">Comment</label>
+            <textarea
+              name="comment[body]"
+              id="reply-message"
+              cols="30"
+              rows="4"
+              class="form-control"
+              required
+              placeholder="Comment *"
+            ></textarea>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label for="reply-name" class="sr-only">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="reply-name"
+                  name="comment[author]"
+                  required
+                  placeholder="Name *"
+                >
+              </div>
+
+              <div class="col-md-6">
+                <label for="reply-email" class="sr-only">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="reply-email"
+                  name="comment[email]"
+                  required
+                  placeholder="Email *"
+                >
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary-2">
+              <span>POST COMMENT</span>
+              <i class="icon-long-arrow-right"></i>
+            </button>
+          {% endform %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</main>
+
+{% stylesheet %}
+  .entry-media img,
+  svg {
+    max-height: 420px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .entry-meta span:not(:last-child)::after {
+    content: ' | ';
+    margin-right: 7px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_author_info",
+      "label": "Show Author Info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_publish_date",
+      "label": "Show Published Date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comments_count",
+      "label": "Show Comments Count",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "blog_title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "blog_info",
+      "name": "Blog Info",
+      "limit": 1
+    },
+    {
+      "type": "blog_category",
+      "name": "Category",
+      "limit": 1
+    },
+    {
+      "type": "blog_content",
+      "name": "Content",
+      "limit": 1
+    },
+    {
+      "type": "blog_tags",
+      "name": "tags",
+      "limit": 1
+    }
+  ]
+}
+{% endschema %}

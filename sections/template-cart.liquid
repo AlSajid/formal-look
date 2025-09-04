@@ -1,0 +1,134 @@
+<main class="main">
+  {% render 'page-header', page_title: 'Shopping Cart' %}
+  {% render 'breadcrumb', path: 'Shop, Shopping Cart' %}
+
+  <div class="page-content">
+    <div class="cart">
+      <div class="container">
+        <form action="{{ routes.cart_url }}" method="post">
+          <div class="row">
+            <div class="col-lg-9">
+              <table class="table table-cart table-mobile">
+                <thead>
+                  <tr>
+                    <th>{{ 'cart.product' | t }}</th>
+                    <th>{{ 'cart.price' | t }}</th>
+                    <th>{{ 'cart.quantity' | t }}</th>
+                    <th>{{ 'cart.total' | t }}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if cart.item_count == 0 %}
+                    <tr>
+                      <td colspan="5" class="text-center">Your cart is currently empty.</td>
+                    </tr>
+                  {% endif %}
+                  {% for item in cart.items %}
+                    <tr>
+                      <td class="product-col">
+                        <div class="product">
+                          <figure class="product-media">
+                            <a href="{{ item.url }}">
+                              {% if item.product.featured_image %}
+                                {{ item.product.featured_image | image_url: width: 60 | image_tag }}
+                              {% else %}
+                                {{ 'product-5' | placeholder_svg_tag: 'placeholder-img' }}
+                              {% endif %}
+                            </a>
+                          </figure>
+
+                          <h3 class="product-title">
+                            {{ item.title | link_to: item.url }}
+                          </h3>
+                        </div>
+                      </td>
+
+                      <td class="price-col">{{ item.product.price | money_without_trailing_zeros }}</td>
+
+                      <td class="quantity-col">
+                        <div class="cart-product-quantity">
+                          <input
+                            type="number"
+                            class="form-control"
+                            min="1"
+                            data-decimals="0"
+                            required
+                            name="updates[]"
+                            value="{{ item.quantity }}"
+                          >
+                        </div>
+                      </td>
+
+                      <td class="total-col">{{ item.final_line_price | money_without_trailing_zeros }}</td>
+                      <td class="remove-col">
+                        <a href="{{ item.url_to_remove }}">
+                          <button type="button" class="btn-remove"><i class="icon-close"></i></button>
+                        </a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+              <div class="cart-bottom">
+                <div class="cart-discount">
+                  <div class="input-group flex-column">
+                    <label for="cart-note">Note</label>
+                    <textarea name="note" class="form-control w-100" id="cart-note"></textarea>
+                  </div>
+                </div>
+
+                <button class="btn btn-outline-dark-2" type="submit" value="Update cart">
+                  Update Cart <i class="icon-refresh"></i>
+                </button>
+              </div>
+            </div>
+
+            <aside class="col-lg-3">
+              <div class="summary summary-cart">
+                <h3 class="summary-title">Cart Total</h3>
+
+                <table class="table table-summary">
+                  <tbody>
+                    <tr class="summary-subtotal">
+                      <td>Subtotal:</td>
+                      <td>{{ cart.items_subtotal_price | money_without_trailing_zeros }}</td>
+                    </tr>
+
+                    <tr class="summary-shipping-row">
+                      <td>Discount</td>
+                      <td>{{ cart.total_discount | money_without_trailing_zeros }}</td>
+                    </tr>
+
+                    <tr class="summary-total">
+                      <td>Total:</td>
+                      <td>{{ cart.total_price | money_without_trailing_zeros }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <input
+                  type="submit"
+                  name="checkout"
+                  class="btn btn-outline-primary-2 btn-order btn-block"
+                  value="Proceed to Checkout"
+                >
+              </div>
+
+              <a href="{{ routes.root_url }}" class="btn btn-outline-dark-2 btn-block mb-3"
+                ><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i
+              ></a>
+            </aside>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+{% schema %}
+{
+  "name": "t:general.cart",
+  "settings": []
+}
+{% endschema %}

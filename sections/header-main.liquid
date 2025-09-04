@@ -1,0 +1,67 @@
+<div class="header-middle sticky-header">
+  <div class="container">
+    <div class="header-left">
+      <button class="mobile-menu-toggler">
+        {% render 'icon-bars' %}
+      </button>
+
+      <a href="{{ routes.root_url }}" class="logo">
+        {% render 'logo' %}
+      </a>
+    </div>
+
+    <div class="header-right">
+      {% render 'mega-menu' %}
+
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'search' %}
+            <form action="{{ routes.search_url }}" method="get">
+              <div class="header-search">
+                <a href="#" class="search-toggle" role="button">
+                  {% render 'icon-search' %}
+                </a>
+
+                <div class="header-search-wrapper">
+                  <input
+                    type="search"
+                    class="form-control"
+                    name="q"
+                    placeholder="{{ 'search.placeholder' | t }}..."
+                    required
+                  >
+                </div>
+              </div>
+            </form>
+          {% when 'cart' %}
+            {% render 'mini-cart' %}
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% render 'mobile-menu' %}
+
+{% schema %}
+{
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "nav_menu",
+      "default": "main-menu",
+      "label": "t:general.header.nav"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "search",
+      "name": "t:general.cart"
+    },
+    {
+      "type": "cart",
+      "name": "t:general.search"
+    }
+  ]
+}
+{% endschema %}

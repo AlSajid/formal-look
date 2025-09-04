@@ -1,0 +1,148 @@
+{% render 'breadcrumb' %}
+
+<div class="page-content">
+  <div class="container my-5">
+    <div class="product-details-top">
+      <div class="row">
+        <div class="col-md-6 pr-5">
+          <div class="product-gallery product-gallery-separated">
+            {% if product.images.size > 0 %}
+              {% for image in product.images %}
+                <figure class="product-separated-item">
+                  {{ image | image_url: width: 570 | image_tag }}
+                </figure>
+              {% endfor %}
+            {% else %}
+              {{ 'product-5' | placeholder_svg_tag: 'placeholder-img' }}
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="product-details sticky-content">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'title' %}
+                  <h1 class="product-title">{{ product.title }}</h1>
+                {% when 'price' %}
+                  <div class="product-price">{{ product.price | money_without_trailing_zeros }}</div>
+
+                {% when 'description' %}
+                  <div class="product-content">
+                    <p>
+                      {{ product.description }}
+                    </p>
+                  </div>
+
+                {% when 'actions' %}
+                  {% assign current_variant = product.selected_or_first_available_variant %}
+
+                  {% form 'product', product %}
+                    {% if product.variants.size > 1 %}
+                      <div class="details-filter-row details-row-size">
+                        <label for="size">Size:</label>
+
+                        <div class="select-custom">
+                          <select name="id" id="size" class="form-control" required>
+                            <option selected="selected">Select a size</option>
+
+                            {% for variant in product.variants %}
+                              <option
+                                value="{{ variant.id }}"
+                                {% if variant == current_variant %}
+                                  selected="selected"
+                                {% endif %}
+                              >
+                                {{ variant.title }}
+                              </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    {% else %}
+                      <input type="hidden" name="id" value="{{ current_variant.id }}">
+                    {% endif %}
+
+                    <div class="details-filter-row details-row-size">
+                      <label for="qty">Qty:</label>
+
+                      <div class="product-details-quantity">
+                        <input
+                          type="number"
+                          id="qty"
+                          class="form-control"
+                          value="1"
+                          min="1"
+                          name="quantity"
+                          required
+                        >
+                      </div>
+                    </div>
+
+                    <div class="product-details-action">
+                      <button type="submit" class="btn-product btn-cart"><span>add to cart</span></button>
+                    </div>
+                  {% endform %}
+
+                {% when 'tags' %}
+                  <div class="product-details-footer">
+                    {% if product.tags.size > 0 %}
+                      <div class="product-cat">
+                        <span>Tags:</span>
+                        {% for tag in product.tags %}
+                          {{ tag }}
+                          {% unless forloop.last %},{% endunless %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+              {% endcase %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .sticky-content {
+    position: sticky;
+    top: 70px;
+  }
+{% endstylesheet %}
+{% schema %}
+{
+  "name": "t:general.product",
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "price",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "tags",
+      "name": "Tags",
+      "limit": 1
+    },
+    {
+      "type": "actions",
+      "name": "Actions",
+      "limit": 1
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

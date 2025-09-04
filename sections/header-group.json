@@ -1,0 +1,40 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+	"name": "t:general.header.title",
+	"type": "header",
+	"sections": {
+		"extension": {
+			"type": "header-extension",
+			"blocks": {
+				"about_us": {
+					"type": "about_us"
+				},
+				"contact_us": {
+					"type": "contact_us"
+				}
+			},
+			"block_order": ["about_us", "contact_us"]
+		},
+		"main": {
+			"type": "header-main",
+			"blocks": {
+				"search": {
+					"type": "search"
+				},
+				"cart": {
+					"type": "cart"
+				}
+			},
+			"block_order": ["search", "cart"]
+		}
+	},
+	"order": ["extension", "main"]
+}

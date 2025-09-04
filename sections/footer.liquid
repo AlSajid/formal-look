@@ -1,0 +1,179 @@
+<footer class="footer">
+  <div class="footer-middle">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-lg-3">
+          <div class="widget widget-about">
+            {% render 'logo' %}
+
+            {% if shop.brand.short_description != blank %}
+              <p>
+                {{ shop.brand.short_description }}
+              </p>
+            {% endif %}
+
+            <div class="social-icons">
+              {% for block in section.blocks %}
+                {% case block.type %}
+                  {% when 'facebook' %}
+                    <a href="{{block.settings.url }}" class="social-icon" target="_blank" title="Facebook">
+                      <i class="icon-facebook-f"></i>
+                    </a>
+                  {% when 'twitter' %}
+                    <a href="{{block.settings.url }}" class="social-icon" target="_blank" title="Twitter">
+                      <i class="icon-twitter"> </i>
+                    </a>
+                  {% when 'instagram' %}
+                    <a href="#" class="social-icon" target="_blank" title="Instagram">
+                      <i class="icon-instagram"></i>
+                    </a>
+                  {% when 'youtube' %}
+                    <a href="{{block.settings.url }}" class="social-icon" target="_blank" title="Youtube">
+                      <i class="icon-youtube"></i>
+                    </a>
+                  {% when 'pinterest' %}
+                    <a href="{{block.settings.url }}" class="social-icon" target="_blank" title="Pinterest">
+                      <i class="icon-pinterest"></i>
+                    </a>
+                {% endcase %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        {% assign footer_menu = linklists[section.settings.menu] %}
+
+        {% for parent_menu in footer_menu.links %}
+          <div class="col-sm-6 col-lg-3">
+            <div class="widget">
+              <h4 class="widget-title">{{ parent_menu.title }}</h4>
+
+              <ul class="widget-list">
+                {% for child_menu in parent_menu.links %}
+                  <li>
+                    <a href="{{ child_menu.url }}">{{ child_menu.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <p class="footer-copyright">
+        <span>© </span>
+        {{- 'now' | date: '%Y' }}
+        {{ shop.name | link_to: routes.root_url }}
+        {% if section.settings.text != blank %}
+          <span> | </span>
+        {% endif %}
+        {{ section.settings.text }}
+      </p>
+
+      <figure class="footer-payments">
+        {% if section.settings.show_payment_icons %}
+          {% for type in shop.enabled_payment_types %}
+            {{ type | payment_type_svg_tag }}
+          {% endfor %}
+        {% endif %}
+      </figure>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "t:general.footer",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:labels.menu",
+      "default": "footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "t:labels.show_payment_icons",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "All rights are reserved."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "facebook",
+      "name": "t:labels.social.facebook",
+      "settings": [
+        {
+          "type": "url",
+          "id": "url",
+          "label": "t:labels.social.facebook",
+          "default": "/"
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "twitter",
+      "name": "t:labels.social.twitter",
+      "settings": [
+        {
+          "type": "url",
+          "id": "url",
+          "label": "t:labels.social.twitter",
+          "default": "/"
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "instagram",
+      "name": "t:labels.social.instagram",
+      "settings": [
+        {
+          "type": "url",
+          "id": "url",
+          "label": "t:labels.social.instagram",
+          "default": "/"
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "youtube",
+      "name": "t:labels.social.youtube",
+      "settings": [
+        {
+          "type": "url",
+          "id": "url",
+          "label": "t:labels.social.youtube",
+          "default": "/"
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "pinterest",
+      "name": "t:labels.social.pinterest",
+      "settings": [
+        {
+          "type": "url",
+          "id": "pinterest_url",
+          "label": "t:labels.social.pinterest",
+          "default": "/"
+        }
+      ],
+      "limit": 1
+    }
+  ]
+}
+{% endschema %}

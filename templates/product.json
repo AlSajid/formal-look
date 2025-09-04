@@ -1,0 +1,35 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+	"sections": {
+		"main": {
+			"type": "template-product",
+			"blocks": {
+				"title": {
+					"type": "title"
+				},
+				"price": {
+					"type": "price"
+				},
+				"description": {
+					"type": "description"
+				},
+				"actions": {
+					"type": "actions"
+				},
+				"tags": {
+					"type": "tags"
+				}
+			},
+			"block_order": ["title", "price", "description", "actions", "tags"]
+		}
+	},
+	"order": ["main"]
+}

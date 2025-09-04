@@ -1,0 +1,70 @@
+<div class="header-top">
+  <div class="container">
+    <div class="header-right ">
+      <ul class="top-menu my-2">
+        <li>
+          <ul>
+            {% assign phone_number = section.settings.phone_number %}
+            {% if phone_number != blank %}
+              <li>
+                <a href="tel:{{ phone_number | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}">
+                  {% render 'icon-phone' %}
+                  {{ section.settings.phone_number }}
+                </a>
+              </li>
+            {% endif %}
+
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'about_us' %}
+                  <li>
+                    <a href="{{ pages['about-us'].url }}">{{ 'pages.about_us' | t }}</a>
+                  </li>
+
+                {% when 'contact_us' %}
+                  <li>
+                    <a href="{{ pages['contact'].url }}">{{ 'pages.contact_us' | t }}</a>
+                  </li>
+              {% endcase %}
+            {% endfor %}
+
+            {% if shop.customer_accounts_enabled %}
+              <li>
+                <a href="#signin-modal" data-toggle="modal">
+                  {%- render 'icon-user' -%}
+                  {{ 'customers.login.title' | t }}
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:general.header.extension",
+  "settings": [
+    {
+      "type": "text",
+      "id": "phone_number",
+      "label": "t:general.header.phone_number",
+      "default": "+1 (234) 567-8901"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "t:general.pages.about_us",
+      "type": "about_us",
+      "limit": 1
+    },
+    {
+      "name": "t:general.pages.contact_us",
+      "type": "contact_us",
+      "limit": 1
+    }
+  ]
+}
+{% endschema %}

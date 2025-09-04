@@ -1,0 +1,24 @@
+<div class="col-6 col-md-4 col-lg-4 col-xl-3">
+  <div class="product">
+    <figure class="product-media">
+      <a href="{{ product.url }}">
+        {% if product.featured_image %}
+          {{ product.featured_image | image_url: width: 300 | image_tag: class: 'product-image' }}
+        {% else %}
+          {{ 'product-5' | placeholder_svg_tag: 'placeholder-img' }}
+        {% endif %}
+      </a>
+    </figure>
+
+    <div class="product-body">
+      <div class="product-cat">
+        {{ product.vendor }}
+      </div>
+      <h3 class="product-title">
+        {{ product.title | link_to: product.url }}
+      </h3>
+
+      <div class="product-price">{{ product.price | money_without_trailing_zeros }}</div>
+    </div>
+  </div>
+</div>

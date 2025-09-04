@@ -1,0 +1,31 @@
+{% assign nav_menu = linklists[section.settings.nav_menu] %}
+
+<nav class="main-nav">
+  <ul class="menu sf-with-ul">
+    {% for parentLink in nav_menu.links %}
+      <li class="{% if parentLink.active %} active {% endif %}">
+        <a href="{{ parentLink.url }}" class="">{{ parentLink.title }}</a>
+
+        {% if parentLink.links.size > 0 %}
+          <ul>
+            {% for childLink in parentLink.links %}
+              <li>
+                <a href="{{ childLink.url }}">{{ childLink.title }}</a>
+
+                {% if childLink.links.size > 0 %}
+                  <ul>
+                    {% for grandChildLink in childLink.links %}
+                      <li>
+                        <a href="{{ grandChildLink.url }}">{{ grandChildLink.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    {% # Inlined CSS Variables %}
+    {% render 'css-variables' %}
+
+    {% # Social, title, etc. %}
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+
+    {{ 'line-awesome.min.css' | asset_url | stylesheet_tag: preload: true }}
+
+    <!-- Plugins CSS File -->
+    {{ 'bootstrap.min.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'owl.carousel.css' | asset_url | stylesheet_tag: preload: true }}
+    {% comment %} {{ 'magnific-popup.css' | asset_url | stylesheet_tag: preload: true }} {% endcomment %}
+
+    <!-- Main CSS File -->
+    {{ 'style.css' | asset_url | stylesheet_tag: preload: true }}
+    {% comment %} {{ 'nouislider.css' | asset_url | stylesheet_tag: preload: true }} {% endcomment %}
+    {{ 'demo.css' | asset_url | stylesheet_tag: preload: true }}
+  </head>
+
+  <body>
+    <header class="header header-7">
+      {% sections 'header-group' %}
+    </header>
+
+    {{ content_for_layout }}
+    {% sections 'footer-group' %}
+
+    <!-- Plugins JS File -->
+    <script src="{{ 'jquery.min.js' | asset_url }}" async></script>
+    <script src="{{ 'bootstrap.bundle.min.js' | asset_url }}" async></script>
+    {% comment %} <script src="{{ 'jquery.hoverIntent.min.js' | asset_url }}" async></script> {% endcomment %}
+    <script src="{{ 'jquery.waypoints.min.js' | asset_url }}" async></script>
+    <script src="{{ 'superfish.min.js' | asset_url }}" async></script>
+    <script src="{{ 'owl.carousel.min.js' | asset_url }}" async></script>
+    {% comment %} <script src="{{ 'imagesloaded.pkgd.min.js' | asset_url }}" async></script> {% endcomment %}
+    {% comment %} <script src="{{ 'isotope.pkgd.min.js' | asset_url }}" async></script> {% endcomment %}
+    {% comment %} <script src="{{ 'wNumb.js' | asset_url }}" async></script> {% endcomment %}
+    {% comment %} <script src="{{ 'nouislider.min.js' | asset_url }}" async></script> {% endcomment %}
+    <script src="{{ 'bootstrap-input-spinner.js' | asset_url }}" async></script>
+    {% comment %} <script src="{{ 'jquery.magnific-popup.min.js' | asset_url }}" async></script> {% endcomment %}
+
+    <!-- Main JS File -->
+    <script src="{{ 'main.js' | asset_url }}" async></script>
+    <script src="{{ 'demo.js' | asset_url }}" async></script>
+  </body>
+</html>

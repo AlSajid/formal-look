@@ -1,0 +1,52 @@
+<div class="mobile-menu-overlay"></div>
+
+<div class="mobile-menu-container">
+  <div class="mobile-menu-wrapper">
+    <span class="mobile-menu-close">
+      {% render 'icon-close' %}
+    </span>
+
+    <form action="{{ routes.search_url }}" method="get" class="mobile-search">
+      <input
+        type="search"
+        class="form-control"
+        name="q"
+        placeholder="{{ 'search.placeholder' | t }}..."
+        required
+      >
+      <button class="btn btn-primary" type="submit">{% render 'icon-search' %}</button>
+    </form>
+
+    <nav class="mobile-nav">
+      <ul class="mobile-menu">
+        {% assign nav_menu = linklists[section.settings.nav_menu] %}
+
+        {% for parentLink in nav_menu.links %}
+          <li class="{% if parentLink.active %} active {% endif %}">
+            <a href="{{ parentLink.url }}">{{ parentLink.title }}</a>
+
+            {% if parentLink.links.size > 0 %}
+              <ul>
+                {% for childLink in parentLink.links %}
+                  <li>
+                    <a href="{{ childLink.url }}">{{ childLink.title }}</a>
+
+                    {% if childLink.links.size > 0 %}
+                      <ul>
+                        {% for grandChildLink in childLink.links %}
+                          <li>
+                            <a href="{{ grandChildLink.url }}">{{ grandChildLink.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</div>

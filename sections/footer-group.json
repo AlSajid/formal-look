@@ -1,0 +1,41 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+	"type": "footer",
+	"name": "t:general.footer",
+	"sections": {
+		"footer": {
+			"type": "footer",
+			"settings": {
+				"menu": "footer",
+				"show_payment_icons": true
+			},
+			"blocks": {
+				"facebook": {
+					"type": "facebook"
+				},
+				"twitter": {
+					"type": "twitter"
+				},
+				"instagram": {
+					"type": "instagram"
+				},
+				"youtube": {
+					"type": "youtube"
+				},
+				"pinterest": {
+					"type": "pinterest"
+				}
+			},
+			"block_order": ["facebook", "twitter", "instagram", "youtube", "pinterest"]
+		}
+	},
+	"order": ["footer"]
+}

@@ -1,0 +1,67 @@
+<div class="dropdown cart-dropdown">
+  <a
+    href="#"
+    class="dropdown-toggle"
+    role="button"
+  >
+    {% render 'icon-shopping-cart' %}
+
+    {% if cart.item_count > 0 %}
+      <span class="cart-count">{{ cart.item_count }}</span>
+    {% endif %}
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-right">
+    <div class="dropdown-cart-products">
+      {% for item in cart.items %}
+        <div class="product">
+          <div class="product-cart-details">
+            <h4 class="product-title">
+              <a href="{{ item.product.url }}">{{ item.title }}</a>
+            </h4>
+
+            <span class="cart-product-info">
+              <span class="cart-product-qty">{{ item.quantity }}</span>
+              <span> x {{ item.product.price | money_without_trailing_zeros }}</span>
+            </span>
+          </div>
+
+          <figure class="product-image-container">
+            <a href="{{ item.product.url }}" class="product-image">
+              {% if item.product.featured_image %}
+                {{ item.product.featured_image | image_url: width: 60 | image_tag }}
+              {% else %}
+                {{ 'product-5' | placeholder_svg_tag: 'placeholder-img' }}
+              {% endif %}
+            </a>
+          </figure>
+
+          <a href="{{ item.url_to_remove }}" class="btn-remove" title="Remove Product">
+            {% render 'icon-close' %}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="dropdown-cart-total">
+      <span>{{ 'cart.total' | t }}</span>
+
+      <span class="cart-total-price">{{ cart.total_price | money_without_trailing_zeros }}</span>
+    </div>
+
+    <div class="dropdown-cart-action">
+      <a href="{{ routes.cart_url }}" class="btn btn-primary">{{ 'cart.view_cart' | t }}</a>
+
+      <form action="{{ routes.cart_url }}" method="post">
+        <button
+          type="submit"
+          name="checkout"
+          class="btn btn-outline-primary-2"
+        >
+          <span>{{ 'cart.checkout' | t }}</span>
+          {% render 'icon-arrow-right' %}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

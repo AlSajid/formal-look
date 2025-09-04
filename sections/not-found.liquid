@@ -1,0 +1,64 @@
+{% assign error_bg = section.settings.error_bg | image_url %}
+
+{% if error_bg == blank %}
+  {% assign error_bg = 'error-bg.jpg' | asset_img_url: 'master' %}
+{% endif %}
+
+<main class="main">
+  <div class="error-content text-center" style="background-image: url({{ error_bg }})">
+    <div class="container bg-blur-container">
+      <h1 class="error-title">{{ section.settings.heading }}</h1>
+      <p>{{ section.settings.subheading }}</p>
+
+      <a href="{{ section.settings.button_url }}" class="btn btn-outline-primary-2 btn-minwidth-lg">
+        <span>{{ section.settings.button_text }}</span>
+        <i class="icon-long-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</main>
+
+{% stylesheet %}
+  .bg-blur-container {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(3px);
+    padding: 16px;
+    border-radius: 7px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Title",
+      "default": "Case 404: The Missing Page"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our best detectives are still searching for it… 🕵️"
+    },
+    {
+      "type": "image_picker",
+      "id": "error_bg",
+      "label": "Error Background"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Back to Homepage"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL",
+      "default": "/"
+    }
+  ]
+}
+{% endschema %}

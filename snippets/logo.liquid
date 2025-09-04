@@ -1,0 +1,5 @@
+{% if shop.brand.logo %}
+  {{ shop.brand.logo | image_url: width: 82, height: 25 | image_tag: alt: shop.name }}
+{% else %}
+  {{ shop.name }}
+{% endif %}
